@@ -1,10 +1,75 @@
-# `HBT_ticketing_system`
+# 🌌 HBT Galaxy Ticketing System
 
-Welcome to your new `HBT_ticketing_system` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+> A next-generation decentralized event ticketing platform built on the **Internet Computer (ICP)**, featuring a "Galaxy" aesthetic and anti-scalping mechanisms.
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+![Dashboard Preview](dashboard_preview.png)
 
-To learn more before you start working with `HBT_ticketing_system`, see the following documentation available online:
+## 📖 Overview
+
+The **HBT Ticketing System** solves the problem of ticket scalping and counterfeit tickets in the event industry. By issuing tickets as **Non-Fungible Tokens (NFTs)** on the Internet Computer blockchain, we ensure:
+
+1.  **Authenticity:** Every ticket is cryptographically verifiable.
+2.  **Controlled Resale:** A secondary marketplace where price gauging is mathematically impossible (capped at 1.2x original price).
+3.  **Ownership:** Users truly own their assets via Internet Identity.
+
+The project features a custom **"Nebula/Galaxy" Design System** built from scratch using SCSS, offering a modern, glassmorphic user experience.
+
+---
+
+## 🌟 Key Features
+
+### 🔐 Blockchain Security
+* **Smart Contract Backend:** Written in **Motoko**, handling all logic for minting, transfers, and marketplace listings.
+* **Mock Authentication:** Integrated local development authentication simulating Internet Identity (Principal ID: `2vxsx-fae`).
+
+### 🎨 Galaxy UI / UX
+* **Nebula Theme:** Custom CSS animations (`starFloat`), neon gradients, and dark-mode aesthetics.
+* **Glassmorphism:** Translucent cards and modals for a futuristic feel.
+* **Responsive Grid:** Adapts seamlessly to different screen sizes.
+
+### 🎟️ Ticketing Logic
+* **Event Creation:** Admins can create events with specific supplies, prices (in e8s), and dates.
+* **Purchase Flow:** Atomic transactions deduct balance and mint a ticket NFT to the user's wallet.
+* **Resale Market:**
+    * Users can list valid tickets for resale.
+    * **Smart Cap:** The contract rejects any listing price higher than 120% of the original face value.
+
+### 🖼️ Local Asset Management
+* Hybrid architecture serving assets directly from the canister to avoid Content Security Policy (CSP) errors.
+* Support for high-res event banners hosted on-chain.
+
+---
+
+## 🛠️ Technology Stack
+
+| Component | Technology | Description |
+| :--- | :--- | :--- |
+| **Blockchain** | Internet Computer (ICP) | The underlying decentralized network. |
+| **Backend** | Motoko | Actor-based smart contract language. |
+| **Frontend** | React + Vite | High-performance UI framework. |
+| **Styling** | SCSS / Sass | Custom styling (No Tailwind/Bootstrap). |
+| **Auth** | Internet Identity | Cryptographic authentication (Mocked locally). |
+| **Tools** | DFX SDK | CLI for deploying and managing canisters. |
+
+---
+
+## ⚡ Installation & Local Setup
+
+Follow these steps to set up the environment.
+
+### 1. Prerequisites
+* **Node.js:** v18.0.0 or higher.
+* **DFX SDK:** Latest version (`sh -ci "$(curl -fsSL https://internetcomputer.org/install.sh)"`).
+* **Git**
+
+### 2. Clone and Install
+```bash
+git clone <YOUR_REPO_URL>
+cd HBT_ticketing_system
+
+# Install dependencies
+# IMPORTANT: This installs @dfinity/agent v1.4.0 to ensure local API compatibility.
+npm install
 
 - [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
 - [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
