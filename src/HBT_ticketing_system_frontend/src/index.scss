@@ -1,41 +1,763 @@
+/* ==========================================================================
+   1. FONTS AND RESET
+   ========================================================================== */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ==========================================================================
+   2. COLOR PALETTE & THEME VARIABLES
+   ========================================================================== */
+:root {
+  /* --- The Deep Galaxy Palette --- */
+  --bg-void: #020617;       /* The darkest blue/black possible */
+  --bg-nebula: #0f172a;     /* Slightly lighter for cards */
+  
+  /* --- Glassmorphism Variables --- */
+  --glass-panel: rgba(15, 23, 42, 0.65); 
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --glass-highlight: 1px solid rgba(255, 255, 255, 0.15);
+  --glass-blur: blur(20px);
+
+  /* --- Typography Colors --- */
+  --text-white: #ffffff;
+  --text-body: #94a3b8;     /* Soft blue-grey */
+  --text-dim: #64748b;      /* Darker grey */
+  --text-accent: #c4b5fd;   /* Soft Purple for highlights */
+
+  /* --- Branding Gradients --- */
+  --color-primary: #8b5cf6; /* Violet */
+  --color-secondary: #ec4899; /* Pink */
+  --color-cyan: #06b6d4;    /* Cyan */
+  
+  /* The "Magical" Gradient for buttons/text */
+  --gradient-galaxy: linear-gradient(135deg, #7c3aed 0%, #db2777 50%, #f472b6 100%);
+  --gradient-glow: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, transparent 70%);
+  
+  /* --- UI Dimensions & Shadows --- */
+  --radius-sm: 8px;
+  --radius-card: 20px;
+  --radius-pill: 50px;
+  --nav-height: 90px;
+  
+  /* Glowing Shadows */
+  --shadow-neon: 0 0 20px rgba(124, 58, 237, 0.3);
+  --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+  
+  /* --- Status Colors --- */
+  --status-success-bg: rgba(16, 185, 129, 0.15);
+  --status-success-text: #34d399;
+  --status-danger-bg: rgba(239, 68, 68, 0.15);
+  --status-danger-text: #f87171;
+}
+
+/* ==========================================================================
+   3. MAIN BODY & SCROLLBARS
+   ========================================================================== */
 body {
-  font-family: sans-serif;
-  font-size: 1.5rem;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-void);
+  color: var(--text-white);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
 }
 
-img {
-  max-width: 50vw;
-  max-height: 25vw;
-  display: block;
-  margin: auto;
+/* Custom Scrollbar for Chrome/Safari */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-void); 
+}
+::-webkit-scrollbar-thumb {
+  background: #334155; 
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569; 
 }
 
-form {
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: 0.2s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ==========================================================================
+   4. APP CONTAINER & ANIMATED BACKGROUNDS
+   ========================================================================== */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  /* Deep base background */
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, var(--bg-void) 70%);
+}
+
+/* Animated Stars Layer 1 */
+.app-container::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px);
+  background-size: 550px 550px, 350px 350px;
+  background-position: 0 0, 40px 60px;
+  opacity: 0.6;
+  z-index: -2;
+  animation: starFloat 120s linear infinite;
+}
+
+/* Floating Nebula Orbs (Colorful background blobs) */
+.app-container::after {
+  content: "";
+  position: fixed;
+  top: 20%; right: -10%;
+  width: 50vw; height: 50vw;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 60%);
+  filter: blur(80px);
+  z-index: -2;
+  pointer-events: none;
+}
+
+@keyframes starFloat {
+  from { transform: translateY(0); }
+  to { transform: translateY(-500px); }
+}
+
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* ==========================================================================
+   5. NAVIGATION BAR & LOGIN STYLES
+   ========================================================================== */
+.navbar {
+  height: var(--nav-height);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+  /* Glass Effect */
+  background: rgba(2, 6, 23, 0.7);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: var(--glass-border);
+}
+
+.navbar-brand h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(to right, #fff, #c4b5fd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 15px rgba(139, 92, 246, 0.4));
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.03);
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  border: var(--glass-border);
+}
+
+.navbar-menu .nav-item {
+  background: transparent;
+  border: none;
+  color: var(--text-body);
+  padding: 0.6rem 1.4rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navbar-menu .nav-item:hover {
+  color: var(--text-white);
+}
+
+.navbar-menu .nav-item.active {
+  background: rgba(255,255,255,0.1);
+  color: var(--text-white);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+/* --- FIX: User Badge & Login Button --- */
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: rgba(255,255,255,0.02);
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem; /* Left padding for text */
+  border-radius: var(--radius-pill);
+  border: var(--glass-border);
+}
+
+/* The "User" Text - Made bigger and cleaner */
+.navbar-auth .role-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem; 
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-accent);
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+}
+
+/* The Logout/Login Pill Button */
+.navbar-auth button {
+  background: var(--gradient-galaxy);
+  color: white;
+  border: none;
+  padding: 0.7rem 1.8rem;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(219, 39, 119, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.navbar-auth button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(219, 39, 119, 0.6);
+}
+
+/* ==========================================================================
+   6. SUB-NAVIGATION
+   ========================================================================== */
+.sub-nav {
   display: flex;
   justify-content: center;
-  gap: 0.5em;
-  flex-flow: row wrap;
-  max-width: 40vw;
-  margin: auto;
-  align-items: baseline;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
 }
 
-button[type="submit"] {
-  padding: 5px 20px;
-  margin: 10px auto;
-  float: right;
+.sub-nav button {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  padding-bottom: 5px;
 }
 
-#greeting {
-  margin: 10px auto;
-  padding: 10px 60px;
-  border: 1px solid #222;
+.sub-nav button.active {
+  color: var(--text-white);
 }
 
-#greeting:empty {
-  display: none;
+.sub-nav button.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  border-radius: 10px;
 }
 
-.browser-warning {
-  display: none;
+/* ==========================================================================
+   7. HERO SECTION & QUOTES
+   ========================================================================== */
+.hero-section {
+  text-align: center;
+  padding: 5rem 1rem 3rem;
+}
+
+.hero-section h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(180deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 30px rgba(255,255,255,0.1));
+}
+
+.quote-container {
+  max-width: 650px;
+  margin: 0 auto;
+  padding: 1.2rem 2rem;
+  border-left: 4px solid var(--color-cyan);
+  background: linear-gradient(90deg, rgba(6, 182, 212, 0.1), transparent);
+  text-align: left;
+  border-radius: 0 12px 12px 0;
+}
+
+.quote-container .quote-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: #a5f3fc;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   8. EVENT CARDS & GRID
+   ========================================================================== */
+.events-grid, .tickets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2.5rem;
+  padding-bottom: 4rem;
+}
+
+.event-card {
+  background: var(--bg-nebula);
+  border: var(--glass-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-card);
+  position: relative;
+}
+
+.event-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(139, 92, 246, 0.5);
+  box-shadow: 0 20px 50px -10px rgba(139, 92, 246, 0.3);
+  z-index: 10;
+}
+
+/* Event Image Area */
+.event-image-container {
+  height: 220px;
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-image-container .event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+  transition: transform 0.5s ease;
+}
+
+.event-card:hover .event-image {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.event-image-container .event-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: rgba(255,255,255,0.2);
+  background: linear-gradient(45deg, #0f172a, #1e293b);
+}
+
+.event-image-container .event-price-tag {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Event Content */
+.event-details {
+  padding: 1.8rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-white);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+/* --- FIX: Icons Styling --- */
+.event-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: var(--text-body);
+}
+
+.event-info span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Monochrome filter for icons */
+  filter: grayscale(100%) brightness(1.8) contrast(0.8);
+  opacity: 0.8;
+}
+
+.event-description {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.event-footer .tickets-left {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-body);
+  background: rgba(255,255,255,0.05);
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+
+/* ==========================================================================
+   9. TICKET CARDS & TEXT OVERFLOW FIX
+   ========================================================================== */
+.ticket-card {
+  background: var(--bg-nebula);
+  border: var(--glass-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border-top: 4px solid var(--color-secondary); /* Pink top border */
+  transition: 0.3s;
+}
+
+.ticket-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-neon);
+}
+
+.ticket-status {
+  margin: 1.2rem 1.2rem 0;
+  padding: 0.8rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.ticket-status.valid {
+  background: var(--status-success-bg);
+  color: var(--status-success-text);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.ticket-status.invalid {
+  background: var(--status-danger-bg);
+  color: var(--status-danger-text);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+.ticket-body {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.ticket-event-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 1.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- FIX: Text Overflow for Ticket IDs --- */
+.ticket-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-body);
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  padding-bottom: 0.8rem;
+}
+
+.ticket-info-row:last-child {
+  border-bottom: none;
+}
+
+.ticket-info-row strong {
+  color: var(--text-white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  
+  /* CRITICAL FIX: Limit width and add ... */
+  max-width: 140px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+.ticket-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+/* ==========================================================================
+   10. BUTTONS
+   ========================================================================== */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(1);
+}
+
+.btn.full-width {
+  width: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-galaxy);
+  color: white;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.08);
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255,255,255,0.15);
+}
+
+.btn-outline-green {
+  background: transparent;
+  border: 1px solid #34d399;
+  color: #34d399;
+}
+
+.btn-outline-green:hover {
+  background: rgba(52, 211, 153, 0.1);
+}
+
+.btn-outline-purple {
+  background: transparent;
+  border: 1px solid #a855f7;
+  color: #a855f7;
+}
+
+.btn-outline-purple:hover {
+  background: rgba(168, 85, 247, 0.1);
+}
+
+/* ==========================================================================
+   11. FORMS & INPUTS
+   ========================================================================== */
+.form-container {
+  max-width: 650px;
+  margin: 4rem auto;
+  background: var(--bg-nebula);
+  backdrop-filter: blur(30px);
+  padding: 3rem;
+  border-radius: var(--radius-card);
+  border: var(--glass-border);
+  box-shadow: 0 30px 60px -10px rgba(0,0,0,0.6);
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(to right, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.app-form .form-group {
+  margin-bottom: 1.8rem;
+}
+
+.app-form label {
+  display: block;
+  margin-bottom: 0.7rem;
+  color: var(--text-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.app-form input, 
+.app-form textarea, 
+.app-form select {
+  width: 100%;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 1rem;
+  transition: 0.2s;
+}
+
+.app-form input:focus, 
+.app-form textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.15);
+  background: rgba(0,0,0,0.6);
+}
+
+.app-form .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.app-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+/* ==========================================================================
+   12. NOTIFICATIONS & UTILS
+   ========================================================================== */
+.notification {
+  position: fixed;
+  top: 7rem;
+  right: 2rem;
+  padding: 1.2rem 2rem;
+  border-radius: 16px;
+  font-weight: 600;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.notification.toast-success {
+  background: rgba(6, 78, 59, 0.9);
+  color: #34d399;
+}
+
+.notification.toast-error {
+  background: rgba(127, 29, 29, 0.9);
+  color: #fca5a5;
+}
+
+.empty-state, .login-prompt {
+  text-align: center;
+  padding: 6rem 2rem;
+  background: var(--glass-panel);
+  border: 1px dashed rgba(255,255,255,0.1);
+  border-radius: 20px;
+}
+
+.empty-state h3, .login-prompt h2 {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-size: 1.8rem;
+}
+
+.footer {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  border-top: var(--glass-border);
+  margin-top: auto;
+  background: rgba(0,0,0,0.2);
+}
+
+/* ==========================================================================
+   13. MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    height: auto;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+  
+  .navbar-menu {
+    display: none;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .hero-section h1 {
+    font-size: 2.5rem;
+  }
 }

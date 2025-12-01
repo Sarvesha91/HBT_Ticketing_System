@@ -16,6 +16,13 @@
     "src/HBT_ticketing_system_frontend"
   ],
   "devDependencies": {
+    "sass": "^1.94.2",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@dfinity/agent": "1.4.0",
+    "@dfinity/auth-client": "1.4.0",
+    "@dfinity/candid": "1.4.0",
+    "@dfinity/principal": "1.4.0"
   }
 }

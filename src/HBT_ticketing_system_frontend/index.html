@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; img-src 'self' data: https:; connect-src 'self' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; object-src 'none'; base-uri 'self';">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
   <title>IC Hello Starter</title>
@@ -10,10 +11,7 @@
 </head>
 
 <body>
-  <div class="browser-warning">
-    ⚠️ If this page appears broken, try reloading. If the problem persists, try switching browsers; Chrome or
-    Firefox are recommended.
-  </div>
+  
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
