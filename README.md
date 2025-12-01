@@ -4,7 +4,7 @@
 
 ![Dashboard Preview](dashboard_preview.png)
 
-## 📖 Overview
+##  Overview
 
 The **HBT Ticketing System** solves the problem of ticket scalping and counterfeit tickets in the event industry. By issuing tickets as **Non-Fungible Tokens (NFTs)** on the Internet Computer blockchain, we ensure:
 
@@ -16,25 +16,25 @@ The project features a custom **"Nebula/Galaxy" Design System** built from scrat
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
-### 🔐 Blockchain Security
+### Blockchain Security
 * **Smart Contract Backend:** Written in **Motoko**, handling all logic for minting, transfers, and marketplace listings.
 * **Mock Authentication:** Integrated local development authentication simulating Internet Identity (Principal ID: `2vxsx-fae`).
 
-### 🎨 Galaxy UI / UX
+###  Galaxy UI / UX
 * **Nebula Theme:** Custom CSS animations (`starFloat`), neon gradients, and dark-mode aesthetics.
 * **Glassmorphism:** Translucent cards and modals for a futuristic feel.
 * **Responsive Grid:** Adapts seamlessly to different screen sizes.
 
-### 🎟️ Ticketing Logic
+###  Ticketing Logic
 * **Event Creation:** Admins can create events with specific supplies, prices (in e8s), and dates.
 * **Purchase Flow:** Atomic transactions deduct balance and mint a ticket NFT to the user's wallet.
 * **Resale Market:**
     * Users can list valid tickets for resale.
     * **Smart Cap:** The contract rejects any listing price higher than 120% of the original face value.
 
-### 🖼️ Local Asset Management
+### Local Asset Management
 * Hybrid architecture serving assets directly from the canister to avoid Content Security Policy (CSP) errors.
 * Support for high-res event banners hosted on-chain.
 
@@ -64,9 +64,9 @@ Follow these steps to set up the environment.
 
 ### 2. Clone and Install
 ```bash
-git clone <YOUR_REPO_URL>
+git clone <https://github.com/Sarvesha91/HBT_Ticketing_System>
 cd HBT_ticketing_system
-
+```
 # Install dependencies
 # IMPORTANT: This installs @dfinity/agent v1.4.0 to ensure local API compatibility.
 npm install
