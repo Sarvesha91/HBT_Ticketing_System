@@ -40,7 +40,7 @@ The project features a custom **"Nebula/Galaxy" Design System** built from scrat
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Component | Technology | Description |
 | :--- | :--- | :--- |
@@ -53,7 +53,7 @@ The project features a custom **"Nebula/Galaxy" Design System** built from scrat
 
 ---
 
-## ⚡ Installation & Local Setup
+##  Installation & Local Setup
 
 Follow these steps to set up the environment.
 
@@ -67,8 +67,8 @@ Follow these steps to set up the environment.
 git clone <https://github.com/Sarvesha91/HBT_Ticketing_System>
 cd HBT_ticketing_system
 ```
-# Install dependencies
-# IMPORTANT: This installs @dfinity/agent v1.4.0 to ensure local API compatibility.
+### Install dependencies
+### IMPORTANT: This installs @dfinity/agent v1.4.0 to ensure local API compatibility.
 npm install
 
 - [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
