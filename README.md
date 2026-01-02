@@ -1,4 +1,4 @@
-# 🌌 HBT Galaxy Ticketing System
+# 🌌 HBT  Ticketing System
 
 > A next-generation decentralized event ticketing platform built on the **Internet Computer (ICP)**, featuring a "Galaxy" aesthetic and anti-scalping mechanisms.
 
